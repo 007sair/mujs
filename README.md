@@ -1,9 +1,9 @@
 
 `MUJS`是一套移动端通用弹层库，包含中间弹出(`default`)、滑动弹出(`slide`)、对话框(`alert`)、提示框(`toast`)、加载框(`loading`)、异步加载等。
 
-整套代码采用原生js，不依赖任何库。css采用BEM命名规范，具体请查看源代码。
+整套代码采用原生js，不依赖任何库。css采用`BEM`命名规范，具体请查看源代码。
 
-整体构思参考[layui](http://layer.layui.com/mobile/)，但又不完全一样，加入了个人思想，感谢layui作者！
+整体构思参考[layui](http://layer.layui.com/mobile/)，但又不完全一样，加入了个人思想，感谢layui作者！
 
 [预览地址](http://007sair.github.io/demo/mujs/index.html)
 

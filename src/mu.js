@@ -19,6 +19,7 @@
         animate: 'scale',        // {string} 弹层弹出时的动画类型，scale（默认）、fade、slide、up
         style: '',               // {string} 设置main容器的style属性
         className: '',           // {string} 设置main容器的自定义样式
+        btn: false,              // {string/array/boolean} alert类型时的按钮文案
         open: function () {},    // {function} 钩子函数，弹层被插入到dom后触发
         close: function () {},   // {function} 钩子函数，弹层被销毁后触发
         yes: function(index) {}  // {function} alert类型的确定按钮，单个或者多个右侧的按钮
@@ -81,7 +82,7 @@
             animate: 'scale', // 弹层弹出时的动画类型，目前支持：scale（默认）、fade、slide、up
             style: '', // 设置main容器的style属性
             className: '', // 设置main容器的自定义样式
-            btn: false,
+            btn: false, // alert类型时的按钮文案
             // open: function () {}, 钩子函数，弹层被插入dom后触发
             // close: function () {} 钩子函数，弹层被销毁后触发
         }, options);
@@ -189,8 +190,8 @@
             typeof _mu[this.index].config.open === 'function' && _mu[this.index].config.open.call(this)
         },
         emit: function (config) {
-            var me = this;
-            var el = dom(this.index);
+            var me = this,
+                el = dom(this.index);
 
             el.wrap.offsetWidth; // 效果等同于 setTimeout 0 不加此语句在添加in时，元素无法产生过渡效果
             config.animate && addClass(el.main, bem(config.animate, 'in'))
@@ -264,6 +265,7 @@
     }
 
     return {
+        v: '1.0.0',
         open: function (options) {
             var slider = new Slider(options || {});
             return slider.index
@@ -279,7 +281,6 @@
 
             var _delay = config.animate ? config.delay * 1000 : 0;
 
-            // 没有使用 delay 是因为不是所有的in都有过渡效果
             clearTimeout(_mu[index].delay)
             _mu[index].delay = setTimeout(function () {
                 removeNode(el.wrap)

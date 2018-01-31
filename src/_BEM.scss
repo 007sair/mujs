@@ -84,11 +84,11 @@ $modifierSeparator: '--';
     background: red;
 }
 
-.block__header {
+.block-header {
     font-size: 14px;
 }
 
-.block__header--css {
+.block-header--css {
     font-size: 18px;
 }
 
@@ -96,7 +96,7 @@ $modifierSeparator: '--';
     color: blue;
 }
 
-.block--book .block__kindlebook {
+.block--book .block-kindlebook {
     background: gray;
 }
 

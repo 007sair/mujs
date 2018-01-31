@@ -13,11 +13,11 @@
 
 **`options.type`**
 
-类型：`string`，弹出类型，`default(默认)`、`slide`、`toast`、`alert`、`loading`。
+类型：`string`，弹层类型，`default(默认)`、`slide`、`toast`、`alert`、`loading`。
 
 **`options.content`**
 
-类型：`string`/`function`，弹出内容，`string`时直接展示内容，`function`时为异步加载，具体查看demo。
+类型：`string`/`function`，弹层内容，`string`时直接展示内容，`function`时为异步加载，具体查看demo。
 
 **`options.mask`**
 

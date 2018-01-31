@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>MU</title>
+<link rel="stylesheet" href="mu.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
+.mu-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.mu-title {
+    padding: 0.5em 0;
+}
+
+.mu-btn {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 5px 10px 0;
+    padding: 0 20px;
+    font-size: 14px;
+    height: 44px;
+    border: none;
+    border-radius: 0.25em;
+    background-color: #d66868;
+    color: #fff;
+    outline: none;
+}
+
+/* 自定义样式 */
+.custom-slide {
+    padding: 30px;
+    background-color: #fff;
+}
+
+.async-slide {
+    padding: 20px;
+    width: 70%;
+    background-color: #fff;
+}
+.async-slide .loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+</style>
+</head>
+<body>
+
+<div class="mu-wrap">
+
+    <h3 class="mu-title">Default</h3>
+    <button class="mu-btn js-btn-default">普通弹层</button>
+
+    <h3 class="mu-title">Slide</h3>
+    <button class="mu-btn js-btn-top">从上滑出</button>
+    <button class="mu-btn js-btn-right">从右滑出</button>
+    <button class="mu-btn js-btn-bottom">从下滑出</button>
+    <button class="mu-btn js-btn-left">从左滑出</button>
+
+    <h3 class="mu-title">Toast</h3>
+    <button class="mu-btn js-btn-toast-1">提示框，无动效</button>
+    <button class="mu-btn js-btn-toast-2">提示框，弹出</button>
+    <button class="mu-btn js-btn-toast-3">提示框，从下往上</button>
+
+    <h3 class="mu-title">Alert</h3>
+    <button class="mu-btn js-btn-alert-1">单按钮，无动效</button>
+    <button class="mu-btn js-btn-alert-2">多按钮，弹出动效</button>
+
+    <h3 class="mu-title">Loading</h3>
+    <button class="mu-btn js-btn-loading-1">无文字，2秒后消失</button>
+    <button class="mu-btn js-btn-loading-2">有文字的，2秒后消失</button>
+    <button class="mu-btn js-btn-loading-3">透明层，点击不消失，5秒后消失</button>
+
+    <h3 class="mu-title">异步加载</h3>
+    <button class="mu-btn js-btn-async">弹层弹起后异步加载数据</button>
+
+</div>
+
+
+<script src="mu.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    var q = function (cls) {
+        return document.querySelector(cls)
+    };
+
+    var touch = function (el, fn) {
+        el.addEventListener('click', fn, false)
+    };
+
+    touch(q('.js-btn-default'), function () {
+        mu.open({
+            content: '默认类型',
+            style: 'padding: 10px 20px;',
+            open () {
+                console.log('default pop open');
+            },
+            close() {
+                console.log('default pop closed');
+            }
+        });
+    })
+
+    // 从上滑出
+    touch(q('.js-btn-top'), function () {
+        mu.open({
+            type: 'slide',
+            from: 'top',
+            content: '从上侧滑出',
+            className: 'custom-slide'
+        });
+    });
+
+    // 从右滑出
+    touch(q('.js-btn-right'), function () {
+        mu.open({
+            type: 'slide',
+            from: 'right',
+            content: '从右侧滑出',
+            className: 'custom-slide'
+        });
+    });
+
+    // 从下滑出
+    touch(q('.js-btn-bottom'), function () {
+        mu.open({
+            type: 'slide',
+            from: 'bottom',
+            content: '从下侧滑出<br /><br /><br /><br />',
+            className: 'custom-slide'
+        });
+    });
+
+    // 从左滑出
+    touch(q('.js-btn-left'), function () {
+        mu.open({
+            type: 'slide',
+            from: 'left',
+            content: '从左侧滑出',
+            className: 'custom-slide',
+            open () {
+                console.log('from left');
+            }
+        });
+    });
+
+
+    // toast
+    touch(q('.js-btn-toast-1'), function () {
+        mu.open({
+            type: 'toast',
+            content: '我是toast提示框',
+            time: 1.5,
+            animate: false
+        });
+    });
+
+    // toast
+    touch(q('.js-btn-toast-2'), function () {
+        mu.open({
+            type: 'toast',
+            content: '我是toast提示框',
+            time: 1.5
+        });
+    });
+
+    // toast
+    touch(q('.js-btn-toast-3'), function () {
+        mu.open({
+            type: 'toast',
+            content: '我是toast提示框',
+            time: 1.5,
+            animate: 'up',
+        });
+    });
+
+
+    // alert 单按钮
+    touch(q('.js-btn-alert-1'), function () {
+        mu.open({
+            type: 'alert',
+            title: '提示',
+            animate: false,
+            maskClose: false,
+            content: '点好的弹层消失',
+            btn: '好的'
+        });
+    });
+
+
+    // 多按钮
+    touch(q('.js-btn-alert-2'), function () {
+        mu.open({
+            type: 'alert',
+            title: '提示',
+            maskClose: false,
+            content: '点刷新重载页面',
+            btn: ['再想想', '刷新'],
+            yes(index) {
+                mu.open({
+                    type: 'loading',
+                    content: '2秒后重新加载页面',
+                    time: 1.5,
+                    mask: false,
+                    close() {
+                        window.location.reload()
+                    }
+                })
+                
+            }
+        });
+    });
+
+    // 无文字loading
+    touch(q('.js-btn-loading-1'), function () {
+        mu.open({
+            type: 'loading',
+            mask: false,
+            time: 2,
+        });
+    });
+
+    // 有文字loading
+    touch(q('.js-btn-loading-2'), function () {
+        mu.open({
+            type: 'loading',
+            content: '加载中..',
+            mask: false,
+            time: 2
+        });
+    });
+
+    // 带透明遮罩的loading
+    touch(q('.js-btn-loading-3'), function () {
+        mu.open({
+            type: 'loading',
+            mask: 'background:transparent',
+            maskClose: false,
+            content: '加载中..',
+            time: 5
+        });
+    });
+
+
+    // 异步加载
+    touch(q('.js-btn-async'), function () {
+        mu.open({
+            type: 'slide',
+            from: 'right',
+            className: 'async-slide',
+            content: function (cb) {
+                setTimeout(function () {
+                    // result为异步加载后的数据
+                    var result = '数据加载完成~~~';
+                    // 执行content传入的函数，传入result
+                    cb && cb(result)
+                }, 2000);
+                
+                // return出去的为异步前的内容展示
+                return '<div class="loading">2秒后展示数据..</div>'
+            }
+        })
+    })
+
+
+        
+}, false)
+</script>
+    
+</body>
+</html>

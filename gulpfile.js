@@ -46,11 +46,6 @@ gulp.task('build:style', function () {
             })
         )
         .pipe(gulp.dest(dist))
-        .pipe(
-            rename(function (path) {
-                path.basename += '.min';
-            })
-        )
         .pipe(browserSync.reload({ stream: true }));
 });
 
@@ -65,10 +60,9 @@ gulp.task('build:js', function () {
 gulp.task('release', ['build:html', 'build:style', 'build:js']);
 
 gulp.task('watch', function () {
-    gulp.watch('src/**/*.html', ['build:html']);
     gulp.watch('src/**/*.scss', ['build:style']);
     gulp.watch('src/**/*.js', ['build:js']);
-    // gulp.watch('src/**/*.html', ['build:example:html']).on('change', browserSync.reload);
+    gulp.watch('src/**/*.html', ['build:html']).on('change', browserSync.reload);
 });
 
 

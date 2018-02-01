@@ -10,20 +10,21 @@
     M：modifier修饰符，元素状态，此处为in等过渡状态
  @API
     mu.open({
-        type: 'default',         // {string} 弹层类型，default（默认）、slide、toast、alert、loading
-        content: '',             // {string/function} 弹层内容，字符串时直接展示，函数时请参考demo
-        mask: true,              // {boolean/string} 是否显示遮罩层，默认显示，字符串时可自定义样式
-        maskClose: true,         // {boolean} 点击遮罩层是否可以关闭弹层
-        delay: .25,              // {number} 移除过渡样式后多久销毁弹层
-        time: 0,                 // {number} 延迟几秒后弹层消失
-        animate: 'scale',        // {string} 弹层弹出时的动画类型，scale（默认）、fade、slide、up
-        style: '',               // {string} 设置main容器的style属性
-        className: '',           // {string} 设置main容器的自定义样式
-        btn: false,              // {string/array/boolean} alert类型时的按钮文案
-        open: function () {},    // {function} 钩子函数，弹层被插入到dom后触发
-        close: function () {},   // {function} 钩子函数，弹层被销毁后触发
-        yes: function(index) {}  // {function} alert类型的确定按钮，单个或者多个右侧的按钮
-        no: function() {}        // {function} alert类型的取消按钮
+        type: 'default',            // {string} 弹层类型，default（默认）、slide、toast、alert、loading
+        content: '',                // {string/function} 弹层内容，字符串时直接展示，函数时请参考demo
+        mask: true,                 // {boolean/string} 是否显示遮罩层，默认显示，字符串时可自定义样式
+        maskClose: true,            // {boolean} 点击遮罩层是否可以关闭弹层
+        delay: .25,                 // {number} 移除过渡样式后多久销毁弹层
+        time: 0,                    // {number} 延迟几秒后弹层消失
+        animate: 'scale',           // {string} 弹层弹出时的动画类型，scale（默认）、fade、slide、up
+        style: '',                  // {string} 设置main容器的style属性
+        className: '',              // {string} 设置main容器的自定义样式
+        btn: false,                 // {string/array/boolean} alert类型时的按钮文案
+
+        open: function () {},       // {function} 钩子函数，弹层被插入到dom后触发
+        close: function () {},      // {function} 钩子函数，弹层被销毁后触发
+        yes: function(index) {},    // {function} alert类型的确定按钮，单个或者多个右侧的按钮
+        no: function() {}           // {function} alert类型的取消按钮
     });
  @异步关闭弹层:
     mu.open()会返回一个index，在其他地方mu.close(index)即可
@@ -53,9 +54,7 @@
 
     // css命名规范
     var bem = function (e, m) { // block = pre  (b:block  e:element  m:modifier)
-        e = e ? ('-' + e) : '';
-        m = m ? ('--' + m) : ''
-        return pre + e + m
+        return pre + (e ? ('-' + e) : '') + (m ? ('--' + m) : '')
     };
 
     // 封装dom 根据index获取对应元素
@@ -82,9 +81,7 @@
             animate: 'scale', // 弹层弹出时的动画类型，目前支持：scale（默认）、fade、slide、up
             style: '', // 设置main容器的style属性
             className: '', // 设置main容器的自定义样式
-            btn: false, // alert类型时的按钮文案
-            // open: function () {}, 钩子函数，弹层被插入dom后触发
-            // close: function () {} 钩子函数，弹层被销毁后触发
+            btn: false // alert类型时的按钮文案
         }, options);
 
         this.init();

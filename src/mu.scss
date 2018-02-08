@@ -1,12 +1,10 @@
-
-
-/* 页面弹层
- * --------
+/**
+ * 页面弹层
  * html: 
- <div class="mu_modal-mask"></div>
- <div class="mu_modal-container">
-     <!-- 自定义html -->
- </div>
+    <div class="mu_modal-mask"></div>
+    <div class="mu_modal-container">
+        <!-- 自定义html -->
+    </div>
  */
 
 $pre: 'mu_modal';
@@ -184,8 +182,9 @@ $icon_loading: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcm
     }
 
 
-    // 动画效果
+    /*** 动画效果 与 options.animate 同名 ***/
 
+    // fade
     @include e(fade) {
         opacity: 0;
         @include m(in) {
@@ -193,6 +192,7 @@ $icon_loading: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcm
         }
     }
 
+    // scale
     @include e(scale) {
         transform: scale(0.01);
         @include m(in) {
@@ -200,12 +200,14 @@ $icon_loading: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcm
         }
     }
 
+    // slide
     @include e(slide) {
         @include m(in) {
             transform: translate(0, 0)
         }
     }
 
+    // up
     @include e(up) {
         position: absolute;
         bottom: 0;
@@ -215,14 +217,14 @@ $icon_loading: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcm
             transform: translateY(0);
         }
     }
+
 }
  
-
 @keyframes stepLoading {
-0% {
-    transform: rotate3d(0, 0, 1, 0deg);
-}
-100% {
-    transform: rotate3d(0, 0, 1, 360deg);
-}
+    0% {
+        transform: rotate3d(0, 0, 1, 0deg);
+    }
+    100% {
+        transform: rotate3d(0, 0, 1, 360deg);
+    }
 }

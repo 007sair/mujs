@@ -86,7 +86,6 @@
 
 </div>
 
-
 <script src="mu.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -259,22 +258,22 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'slide',
             from: 'right',
             className: 'async-slide',
-            content: function (cb) {
-                setTimeout(function () {
-                    // result为异步加载后的数据
-                    var result = '数据加载完成~~~';
-                    // 执行content传入的函数，传入result
-                    cb && cb(result)
+            content: function (callback) {
+                setTimeout(function () { // 模拟ajax请求
+                    // data为异步加载数据
+                    var data = '此数据为异步请求数据';
+
+                    // 异步拿到数据，执行callback回调，将数据传入
+                    callback && callback(data);
+
                 }, 2000);
                 
-                // return出去的为异步前的内容展示
-                return '<div class="loading">2秒后展示数据..</div>'
+                // return的内容为异步前展示内容
+                return '<div class="loading">加载中，请稍后...</div>'
             }
         })
     })
-
-
-        
+    
 }, false)
 </script>
     

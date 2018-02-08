@@ -1,7 +1,7 @@
 {
   "name": "mujs",
   "version": "1.0.0",
-  "description": "公共弹层库",
+  "description": "移动端弹层通用库",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

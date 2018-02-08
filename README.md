@@ -9,7 +9,9 @@
 
 ## API
 
-核心函数，`mu.open(options)`，此方法能返回当前弹层的索引值(index)，参数`options`为对象，其属性和方法如下：
+### `mu.open(options)`
+
+核心函数，此方法返回当前弹层的`index`(索引值)，参数`options`为对象，其属性和方法如下：
 
 **`options.type`**
 
@@ -71,12 +73,10 @@
 
 类型：`function`，`alert`类型的取消按钮
 
-除`mu.open()`方法外，`mu`对象上还挂载了其他方法：
+### `mu.close(index)`
 
-**`mu.close(index)`**
+关闭指定弹层，参数`index`为当前弹层的索引值，指定要关闭的弹层。
 
-类型：`function`，参数`index`为当前弹层的索引值，指定要关闭的弹层。
+### `mu.closeAll()`
 
-**`mu.closeAll()`**
-
-类型：`function`，无参数，关闭所有弹层。
+关闭所有弹层，无参数。

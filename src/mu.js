@@ -107,7 +107,7 @@
             _wrap.className = bem('wrap');
             _wrap.setAttribute('type', config.type);
 
-            q('.' + bem('wrap'), true).forEach(function (_wrap) {
+            [].slice.call(q('.' + bem('wrap'), true)).forEach(function (_wrap) {
                 var type = _wrap.getAttribute('type');
                 var index = _wrap.id.split(pre + '-')[1];
                 if (type === config.type) { // 同类型弹层只允许出现一个
@@ -201,7 +201,7 @@
 
             if (config.btn) {
                 var btns = q('.' + bem('alert_btns') + ' ' + 'span', true);
-                btns.forEach(function (btn) {
+                [].slice.call(btns).forEach(function (btn) {
                     btn.addEventListener('click', function () {
                         var type = this.getAttribute('type');
                         if (type == 0) {
@@ -261,20 +261,44 @@
         }
     }
 
-    return {
+    var mu = {
+
         v: '1.0.0',
+
+        // 基础api
         open: function (options) {
-            var slider = new Slider(options || {});
-            return slider.index
+            var mu = new MU(options || {});
+            return mu.index
         },
+
+        // toast简写
+        toast: function (msg, time) {
+            this.open({
+                type: 'toast',
+                content: msg,
+                time: time || 1.5
+            })
+        },
+
+        // 加载简写
+        loader: function (msg) {
+            msg = msg || '加载中..'
+            return this.open({
+                type: "loading",
+                mask: false,
+                content: msg 
+            })
+        },
+
+        // 关闭指定弹层
         close: function (index) {
-            var el = dom(index);
+            var el = getElem(index);
             if (!el) return;
 
             var config = _mu[index].config;
 
-            el.mask && removeClass(el.mask, bem('fade', 'in'))
-            removeClass(el.main, bem(config.animate, 'in'))
+            el.mask && removeClass(el.mask, getBEM('fade', 'in'))
+            removeClass(el.main, getBEM(config.animate, 'in'))
 
             var _delay = config.animate ? config.delay * 1000 : 0;
 
@@ -285,14 +309,19 @@
                 delete _mu[index]
             }, _delay);
         },
+
+        // 关闭所有弹层
         closeAll: function () {
-            var wraps = q('.' + bem('wrap'), true);
+            var wraps = q('.' + getBEM('wrap'), true);
             if (wraps.length) {
-                wraps.forEach(function (wrap) {
-                    removeNode(_wrap)
+                [].slice.call(wraps).forEach(function (wrap) {
+                    removeNode(wrap)
                 })
             }
         }
     }
 
+    window.mu = mu
+
+    return mu
 }));

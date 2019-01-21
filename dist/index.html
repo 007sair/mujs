@@ -1,281 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>MU</title>
-<link rel="stylesheet" href="mu.css">
-<style>
-* {
-    margin: 0;
-    padding: 0;
-}
-.mu-wrap {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 10px;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MUJS</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
-.mu-title {
-    padding: 0.5em 0;
-}
+        .demo-wrap {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 10px;
+        }
 
-.mu-btn {
-    display: inline-block;
-    vertical-align: top;
-    margin: 0 5px 10px 0;
-    padding: 0 20px;
-    font-size: 14px;
-    height: 44px;
-    border: none;
-    border-radius: 0.25em;
-    background-color: #d66868;
-    color: #fff;
-    outline: none;
-}
+        .demo-title {
+            padding: 0 0 0.5em 0;
+        }
 
-/* 自定义样式 */
-.custom-slide {
-    padding: 30px;
-    background-color: #fff;
-}
+        .demo-btn {
+            display: inline-block;
+            vertical-align: top;
+            margin: 0 5px 10px 0;
+            padding: 0 20px;
+            font-size: 14px;
+            height: 44px;
+            border: none;
+            border-radius: 0.25em;
+            background-color: #d66868;
+            color: #fff;
+            outline: none;
+        }
 
-.async-slide {
-    padding: 20px;
-    width: 70%;
-    background-color: #fff;
-}
-.async-slide .loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%)
-}
-</style>
+        /* 自定义样式 */
+        .custom-slide {
+            padding: 30px;
+            background-color: #fff;
+        }
+
+        .async-slide {
+            padding: 20px;
+            width: 70%;
+            background-color: #fff;
+        }
+
+        .async-slide .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%)
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="mu-wrap">
+    <div class="demo-wrap">
 
-    <h3 class="mu-title">Default</h3>
-    <button class="mu-btn js-btn-default">普通弹层</button>
+        <h3 class="demo-title">Default</h3>
+        <button class="demo-btn js-btn-default">普通弹层</button>
 
-    <h3 class="mu-title">Slide</h3>
-    <button class="mu-btn js-btn-top">从上滑出</button>
-    <button class="mu-btn js-btn-right">从右滑出</button>
-    <button class="mu-btn js-btn-bottom">从下滑出</button>
-    <button class="mu-btn js-btn-left">从左滑出</button>
+        <h3 class="demo-title">Slide</h3>
+        <button class="demo-btn js-btn-top">从上滑出</button>
+        <button class="demo-btn js-btn-right">从右滑出</button>
+        <button class="demo-btn js-btn-bottom">从下滑出</button>
+        <button class="demo-btn js-btn-left">从左滑出</button>
 
-    <h3 class="mu-title">Toast</h3>
-    <button class="mu-btn js-btn-toast-1">提示框，无动效</button>
-    <button class="mu-btn js-btn-toast-2">提示框，弹出</button>
-    <button class="mu-btn js-btn-toast-3">提示框，从下往上</button>
+        <h3 class="demo-title">Toast</h3>
+        <button class="demo-btn js-btn-toast-1">无动效</button>
+        <button class="demo-btn js-btn-toast-2">弹出</button>
+        <button class="demo-btn js-btn-toast-3">从下往上</button>
 
-    <h3 class="mu-title">Alert</h3>
-    <button class="mu-btn js-btn-alert-1">单按钮，无动效</button>
-    <button class="mu-btn js-btn-alert-2">多按钮，弹出动效</button>
+        <h3 class="demo-title">Alert</h3>
+        <button class="demo-btn js-btn-alert-1">单按钮，无动效</button>
+        <button class="demo-btn js-btn-alert-2">多按钮，弹出动效</button>
 
-    <h3 class="mu-title">Loading</h3>
-    <button class="mu-btn js-btn-loading-1">无文字，2秒后消失</button>
-    <button class="mu-btn js-btn-loading-2">有文字的，2秒后消失</button>
-    <button class="mu-btn js-btn-loading-3">透明层，点击不消失，5秒后消失</button>
+        <h3 class="demo-title">Loading</h3>
+        <button class="demo-btn js-btn-loading-1">无文字，2秒后消失</button>
+        <button class="demo-btn js-btn-loading-2">有文字的，2秒后消失</button>
+        <button class="demo-btn js-btn-loading-3">透明层，点击不消失，5秒后消失</button>
 
-    <h3 class="mu-title">异步加载</h3>
-    <button class="mu-btn js-btn-async">弹层弹起后异步加载数据</button>
+        <h3 class="demo-title">异步加载</h3>
+        <button class="demo-btn js-btn-async">弹层弹起后异步加载数据</button>
 
-</div>
+    </div>
 
-<script src="mu.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
+    <script src="mu.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
 
-    var q = function (cls) {
-        return document.querySelector(cls)
-    };
+            var q = function (cls) {
+                return document.querySelector(cls)
+            };
 
-    var touch = function (el, fn) {
-        el.addEventListener('click', fn, false)
-    };
+            var touch = function (el, config) {
+                q(el).addEventListener('click', function () {
+                    mu.open(config)
+                }, false)
+            };
 
-    touch(q('.js-btn-default'), function () {
-        mu.open({
-            content: '默认类型',
-            style: 'padding: 10px 20px;',
-            open () {
-                console.log('default pop open');
-            },
-            close() {
-                console.log('default pop closed');
-            }
-        });
-    })
+            touch('.js-btn-default', {
+                content: '默认类型',
+                style: 'padding: 10px 20px;',
+                open() {
+                    console.log('default pop open');
+                },
+                close() {
+                    console.log('default pop closed');
+                }
+            })
 
-    // 从上滑出
-    touch(q('.js-btn-top'), function () {
-        mu.open({
-            type: 'slide',
-            from: 'top',
-            content: '从上侧滑出',
-            className: 'custom-slide'
-        });
-    });
+            // 从上滑出
+            touch('.js-btn-top', {
+                type: 'slide',
+                from: 'top',
+                content: '从上侧滑出',
+                className: 'custom-slide'
+            });
 
-    // 从右滑出
-    touch(q('.js-btn-right'), function () {
-        mu.open({
-            type: 'slide',
-            from: 'right',
-            content: '从右侧滑出',
-            className: 'custom-slide'
-        });
-    });
+            // 从右滑出
+            touch('.js-btn-right', {
+                type: 'slide',
+                from: 'right',
+                content: '从右侧滑出',
+                className: 'custom-slide'
+            });
 
-    // 从下滑出
-    touch(q('.js-btn-bottom'), function () {
-        mu.open({
-            type: 'slide',
-            from: 'bottom',
-            content: '从下侧滑出<br /><br /><br /><br />',
-            className: 'custom-slide'
-        });
-    });
+            // 从下滑出
+            touch('.js-btn-bottom', {
+                type: 'slide',
+                from: 'bottom',
+                content: '从下侧滑出<b>文本加粗</b>',
+                className: 'custom-slide'
+            });
 
-    // 从左滑出
-    touch(q('.js-btn-left'), function () {
-        mu.open({
-            type: 'slide',
-            from: 'left',
-            content: '从左侧滑出',
-            className: 'custom-slide',
-            open () {
-                console.log('from left');
-            }
-        });
-    });
+            // 从左滑出
+            touch('.js-btn-left', {
+                type: 'slide',
+                from: 'left',
+                content: '从左侧滑出',
+                className: 'custom-slide',
+                open() {
+                    console.log('from left');
+                }
+            });
 
 
-    // toast
-    touch(q('.js-btn-toast-1'), function () {
-        mu.open({
-            type: 'toast',
-            content: '我是toast提示框',
-            time: 1.5,
-            animate: false
-        });
-    });
+            // toast
+            touch('.js-btn-toast-1', {
+                type: 'toast',
+                content: '我是toast提示框',
+                time: 1.5,
+                animate: false
+            });
 
-    // toast
-    touch(q('.js-btn-toast-2'), function () {
-        mu.open({
-            type: 'toast',
-            content: '我是toast提示框',
-            time: 1.5
-        });
-    });
+            // toast
+            touch('.js-btn-toast-2', {
+                type: 'toast',
+                content: '我是toast提示框',
+                time: 1.5
+            });
 
-    // toast
-    touch(q('.js-btn-toast-3'), function () {
-        mu.open({
-            type: 'toast',
-            content: '我是toast提示框',
-            time: 1.5,
-            animate: 'up',
-        });
-    });
+            // toast
+            touch('.js-btn-toast-3', {
+                type: 'toast',
+                content: '我是toast提示框',
+                time: 1.5,
+                animate: 'up',
+            });
 
 
-    // alert 单按钮
-    touch(q('.js-btn-alert-1'), function () {
-        mu.open({
-            type: 'alert',
-            title: '提示',
-            animate: false,
-            maskClose: false,
-            content: '点好的弹层消失',
-            btn: '好的'
-        });
-    });
+            // alert 单按钮
+            touch('.js-btn-alert-1', {
+                type: 'alert',
+                title: '提示',
+                animate: false,
+                maskClose: false,
+                content: '点好的弹层消失',
+                btn: '好的'
+            });
 
 
-    // 多按钮
-    touch(q('.js-btn-alert-2'), function () {
-        mu.open({
-            type: 'alert',
-            title: '提示',
-            maskClose: false,
-            content: '点刷新重载页面',
-            btn: ['再想想', '刷新'],
-            yes(index) {
-                mu.open({
-                    type: 'loading',
-                    content: '2秒后重新加载页面',
-                    time: 1.5,
-                    mask: false,
-                    close() {
-                        window.location.reload()
-                    }
-                })
-                
-            }
-        });
-    });
+            // 多按钮
+            touch('.js-btn-alert-2', {
+                type: 'alert',
+                title: '提示',
+                maskClose: false,
+                content: '点刷新重载页面',
+                btn: ['再想想', '刷新'],
+                yes(index) {
+                    mu.open({
+                        type: 'loading',
+                        content: '2秒后重新加载页面',
+                        time: 1.5,
+                        mask: false,
+                        close() {
+                            window.location.reload()
+                        }
+                    })
 
-    // 无文字loading
-    touch(q('.js-btn-loading-1'), function () {
-        mu.open({
-            type: 'loading',
-            mask: false,
-            time: 2,
-        });
-    });
+                }
+            });
 
-    // 有文字loading
-    touch(q('.js-btn-loading-2'), function () {
-        mu.open({
-            type: 'loading',
-            content: '加载中..',
-            mask: false,
-            time: 2
-        });
-    });
+            // 无文字loading
+            touch('.js-btn-loading-1', {
+                type: 'loading',
+                mask: false,
+                time: 2,
+            });
 
-    // 带透明遮罩的loading
-    touch(q('.js-btn-loading-3'), function () {
-        mu.open({
-            type: 'loading',
-            mask: 'background:transparent',
-            maskClose: false,
-            content: '加载中..',
-            time: 5
-        });
-    });
+            // 有文字loading
+            touch('.js-btn-loading-2', {
+                type: 'loading',
+                content: '加载中..',
+                mask: false,
+                time: 2
+            });
+
+            // 带透明遮罩的loading
+            touch('.js-btn-loading-3', {
+                type: 'loading',
+                mask: 'background: transparent',
+                maskClose: false,
+                content: '加载中..',
+                time: 5
+            });
 
 
-    // 异步加载
-    touch(q('.js-btn-async'), function () {
-        mu.open({
-            type: 'slide',
-            from: 'right',
-            className: 'async-slide',
-            content: function (callback) {
-                setTimeout(function () { // 模拟ajax请求
-                    // data为异步加载数据
-                    var data = '此数据为异步请求数据';
+            var timer = null
 
-                    // 异步拿到数据，执行callback回调，将数据传入
-                    callback && callback(data);
+            // 异步加载
+            touch('.js-btn-async', {
+                type: 'slide',
+                from: 'right',
+                className: 'async-slide',
+                content: function (callback) {
+                    // 注意销毁弹层的异步问题
+                    timer = setTimeout(function () { // 模拟ajax请求
+                        // data为异步加载数据
+                        var data = '此数据为异步请求数据';
 
-                }, 2000);
-                
-                // return的内容为异步前展示内容
-                return '<div class="loading">加载中，请稍后...</div>'
-            }
-        })
-    })
-    
-}, false)
-</script>
-    
+                        // 异步拿到数据，执行callback回调，将数据传入
+                        callback && callback(data);
+                    }, 2000);
+                    // return的内容为异步前展示内容
+                    return '<div class="loading">加载中，请稍后...</div>'
+                },
+                close() {
+                    // 销毁后理论上要停止异步
+                    clearTimeout(timer)
+                }
+            })
+
+        }, false)
+    </script>
+
 </body>
+
 </html>

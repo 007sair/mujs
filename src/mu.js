@@ -1,33 +1,33 @@
 /**
- 弹层
+ 通用弹层展示效果
  --------------
  @描述
   动画效果采用 transition（过渡）实现，非 animation（动画）
  @命名规范
-  使用BEM命名规范，b和e直接用单横线（-），e和m之间使用双横线（--）
+  使用BEM命名规范，b和e之间用单横线（-），e和m之间使用双横线（--）
     B：block块，此处为mu_modal
     E：element元素，此处为一些遮罩层，容器等
     M：modifier修饰符，元素状态，此处为in等过渡状态
  @API
     mu.open({
-        type: 'default',            // {string} 弹层类型，default（默认）、slide、toast、alert、loading
-        content: '',                // {string/function} 弹层内容，字符串时直接展示，函数时请参考demo
-        mask: true,                 // {boolean/string} 是否显示遮罩层，默认显示，字符串时可自定义样式
-        maskClose: true,            // {boolean} 点击遮罩层是否可以关闭弹层
-        delay: .25,                 // {number} 移除过渡样式后多久销毁弹层
-        time: 0,                    // {number} 延迟几秒后弹层消失
-        animate: 'scale',           // {string} 弹层弹出时的动画类型，scale（默认）、fade、slide、up
-        style: '',                  // {string} 设置main容器的style属性
-        className: '',              // {string} 设置main容器的自定义样式
-        btn: false,                 // {string/array/boolean} alert类型时的按钮文案
-
-        open: function () {},       // {function} 钩子函数，弹层被插入到dom后触发
-        close: function () {},      // {function} 钩子函数，弹层被销毁后触发
-        yes: function(index) {},    // {function} alert类型的确定按钮，单个或者多个右侧的按钮
-        no: function() {}           // {function} alert类型的取消按钮
+        type: 'default',          // {string} 弹层类型，default（默认）、slide、toast、alert、loading
+        title: '',                // {string} 弹层标题，一般用于`type=alert`时
+        content: '',              // {string/function} 弹层内容，字符串时直接展示，函数时请参考demo
+        mask: true,               // {boolean/string} 是否显示遮罩层，默认显示，字符串时可自定义样式
+        maskClose: true,          // {boolean} 点击遮罩层是否可以关闭弹层
+        delay: 0.25,              // {number} 移除过渡样式后多久销毁弹层
+        time: 0,                  // {number} 延迟几秒后弹层消失
+        animate: 'scale',         // {string} 弹层弹出时的动画类型，scale（默认）、fade、slide、up
+        style: '',                // {string} 设置main容器的style属性
+        className: '',            // {string} 设置main容器的自定义样式
+        btn: false,               // {string/array/boolean} alert类型时的按钮文案
+        open: function () {},     // {function} 钩子函数，弹层被插入到dom后触发
+        close: function () {},    // {function} 钩子函数，弹层被销毁后触发
+        yes: function(index) {},  // {function} alert类型的确定按钮，单个或者多个右侧的按钮
+        no: function() {}         // {function} alert类型的取消按钮
     });
- @异步关闭弹层:
-    mu.open()会返回一个index，在其他地方mu.close(index)即可
+ @关闭弹层:
+    mu.open()会返回一个number类型的值：index，在其他地方mu.close(index)即可
  */
 
 (function (root, factory) {
@@ -38,11 +38,11 @@
     } else {
         root.mu = factory(root);
     }
-}(this, function () {
+}(window, function () {
 
-    var pre = 'mu_modal',
+    var pre = 'mu',
         index = 0,
-        _mu = {}; // key为index索引，销毁后删除key
+        _mu = {}; // key为index索引，弹层销毁后会删除key
 
     var q = function (cls, isAll) {
         isAll = isAll || false
@@ -52,17 +52,17 @@
         return document.querySelectorAll(cls)
     };
 
-    // css命名规范
-    var bem = function (e, m) { // block = pre  (b:block  e:element  m:modifier)
+    // css命名规范 (b:block  e:element  m:modifier)
+    var getBEM = function (e, m) { // block = pre
         return pre + (e ? ('-' + e) : '') + (m ? ('--' + m) : '')
     };
 
-    // 封装dom 根据index获取对应元素
-    var dom = function (index) {
+    // 根据index获取容器下对应的元素
+    var getElem = function (index) {
         var _wrap = q('#' + pre + '-' + index);
         if (!_wrap) return false;
-        var _mask = _wrap.querySelector('.' + bem('mask'));
-        var _main = _wrap.querySelector('.' + bem('container')).children[0];
+        var _mask = _wrap.querySelector('.' + getBEM('mask'));
+        var _main = _wrap.querySelector('.' + getBEM('container')).children[0];
         return {
             wrap: _wrap,
             mask: _mask,
@@ -70,26 +70,29 @@
         }
     };
 
-    function Slider(options) {
+    function MU(options) {
+
+        // 默认配置项
         this.opts = extend({
             type: 'default', // 弹层类型，默认为中间弹出 目前支持：slide、toast、alert、loading
             content: '', // 弹层内容
             mask: true, // 是否显示遮罩层，默认显示
             maskClose: true, // 点击遮罩层是否可以关闭弹层
-            delay: .25, // 关闭弹层时的过渡动画持续时间
+            delay: 0.25, // 关闭弹层时的过渡动画持续时间
             time: 0, // 延迟几秒后消失
             animate: 'scale', // 弹层弹出时的动画类型，目前支持：scale（默认）、fade、slide、up
             style: '', // 设置main容器的style属性
             className: '', // 设置main容器的自定义样式
-            btn: false // alert类型时的按钮文案
+            btn: false, // alert类型时的按钮文案
+            offset: 'center'
         }, options);
 
         this.init();
     }
 
-    Slider.prototype = {
-        constructor: Slider,
-        init: function (params) {
+    MU.prototype = {
+        constructor: MU,
+        init: function () {
             // 暴露信息给全局对象
             _mu[index] = {
                 config: this.opts,
@@ -104,10 +107,10 @@
 
             var _wrap = document.createElement('div');
             _wrap.id = pre + '-' + index; // 定义id
-            _wrap.className = bem('wrap');
+            _wrap.className = getBEM('wrap');
             _wrap.setAttribute('type', config.type);
 
-            [].slice.call(q('.' + bem('wrap'), true)).forEach(function (_wrap) {
+            [].slice.call(q('.' + getBEM('wrap'), true)).forEach(function (_wrap) {
                 var type = _wrap.getAttribute('type');
                 var index = _wrap.id.split(pre + '-')[1];
                 if (type === config.type) { // 同类型弹层只允许出现一个
@@ -120,7 +123,7 @@
             }
 
             if (config.type === 'alert') {
-                config.content = '<div class="' + bem('alert_content') + '">' + config.content + '</div>'
+                config.content = '<div class="' + getBEM('alert_content') + '">' + config.content + '</div>'
             }
 
             if (config.type === 'slide') {
@@ -134,45 +137,53 @@
 
             //按钮区域
             var getButton = (function () {
-                typeof config.btn === 'string' && (config.btn = [config.btn]);
-                var btns = (config.btn || []).length,
+                var arr_btn = config.btn
+                if (typeof config.btn === 'string') {
+                    arr_btn = [config.btn]
+                }
+
+                var btns = (arr_btn || []).length,
                     btndom;
-                if (btns === 0 || !config.btn) {
+
+                if (btns === 0 || !arr_btn) {
                     return '';
                 }
-                config.btn = config.btn.reverse()
-                btndom = '<span yes type="1">' + config.btn[0] + '</span>'
+                // Fixbug: 在手机上二次点开时按钮会被反转，此处复制一下数组
+                arr_btn = arr_btn.slice(0).reverse()
+                btndom = '<span yes type="1">' + arr_btn[0] + '</span>'
                 if (btns === 2) {
-                    btndom = '<span no type="0">' + config.btn[1] + '</span>' + btndom
+                    btndom = '<span no type="0">' + arr_btn[1] + '</span>' + btndom
                 }
-                return '<div class="' + bem('alert_btns') + '">' + btndom + '</div>';
+                return '<div class="' + getBEM('alert_btns') + '">' + btndom + '</div>';
             }());
 
             var mask_cls = [
-                bem('mask'),
-                config.animate ? bem('fade') : '' // 遮罩层固定使用fade或false
+                getBEM('mask'),
+                config.animate ? getBEM('fade') : '' // 遮罩层固定使用fade或false
             ].join(' ');
 
             var main_cls = [
-                bem('main'),
-                bem(config.type), // 主类型类名，控制元素的展现形式，slide就定位，toast就半透明居中
-                (config.from ? bem(config.type + '_' + config.from) : null), // 元素过渡前的位置，slide中使用
+                getBEM('main'),
+                getBEM(config.type), // 主类型类名，控制元素的展现形式，slide就定位，toast就半透明居中
+                (config.from ? getBEM(config.type, config.from) : null), // 元素过渡前的位置，slide中使用
                 (config.className ? config.className : null), // 自定义类名
-                config.animate ? bem(config.animate) : ''
+                config.animate ? getBEM(config.animate) : ''
             ].filter(function (cls) { return cls }).join(' ');
 
             // async load content
             if (typeof config.content === 'function') {
                 config.content = config.content.call(this, function (content) {
-                    dom(me.index).main.innerHTML = content
+                    if (getElem(me.index) && getElem(me.index).main) {
+                        getElem(me.index).main.innerHTML = content
+                    }
                 })
             }
 
             _wrap.innerHTML = [
                 (config.mask ? '<div style="'+ (typeof config.mask === 'string' ? config.mask : '') +'" class="' + mask_cls + '"></div>' : ''),
-                '<div class="' + bem('container') + '">',
+                '<div class="' + getBEM('container') + ' ' + getBEM('container', config.offset) + '">',
                     '<div class="' + main_cls + '" style="' + (config.style ? config.style : '') + '">',
-                        (config.title ? '<div class="' + bem('title') + '">' + config.title + '</div>' : ''),
+                        (config.title ? '<div class="' + getBEM('title') + '">' + config.title + '</div>' : ''),
                         config.content,
                         config.btn ? getButton : '',
                     '</div>',
@@ -188,19 +199,20 @@
         },
         emit: function (config) {
             var me = this,
-                el = dom(this.index);
+                el = getElem(this.index);
 
             el.wrap.offsetWidth; // 效果等同于 setTimeout 0 不加此语句在添加in时，元素无法产生过渡效果
-            config.animate && addClass(el.main, bem(config.animate, 'in'))
+            config.animate && addClass(el.main, getBEM(config.animate, 'in'))
+
             if (config.mask && el.mask) {
-                config.animate && addClass(el.mask, bem('fade', 'in')) // 遮罩层固定使用fade或false
+                config.animate && addClass(el.mask, getBEM('fade', 'in')) // 遮罩层固定使用fade或false
                 config.maskClose && el.mask.addEventListener('click', function () {
                     mu.close(me.index)
                 })
             }
 
             if (config.btn) {
-                var btns = q('.' + bem('alert_btns') + ' ' + 'span', true);
+                var btns = q('.' + getBEM('alert_btns') + ' ' + 'span', true);
                 [].slice.call(btns).forEach(function (btn) {
                     btn.addEventListener('click', function () {
                         var type = this.getAttribute('type');
@@ -271,7 +283,7 @@
             return mu.index
         },
 
-        // toast简写
+        // toast提示简写
         toast: function (msg, time) {
             this.open({
                 type: 'toast',
@@ -280,7 +292,7 @@
             })
         },
 
-        // 加载简写
+        // 加载
         loader: function (msg) {
             msg = msg || '加载中..'
             return this.open({
@@ -290,7 +302,6 @@
             })
         },
 
-        // 关闭指定弹层
         close: function (index) {
             var el = getElem(index);
             if (!el) return;
@@ -309,13 +320,12 @@
                 delete _mu[index]
             }, _delay);
         },
-
-        // 关闭所有弹层
+        
         closeAll: function () {
             var wraps = q('.' + getBEM('wrap'), true);
             if (wraps.length) {
                 [].slice.call(wraps).forEach(function (wrap) {
-                    removeNode(wrap)
+                    removeNode(_wrap)
                 })
             }
         }
@@ -324,4 +334,5 @@
     window.mu = mu
 
     return mu
+
 }));

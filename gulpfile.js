@@ -36,7 +36,7 @@ gulp.task('build:html', function() {
   });
 
 gulp.task('build:style', function () {
-    return gulp.src('./src/mu.scss', option)
+    return gulp.src('./src/index.scss', option)
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss([autoprefixer(['iOS >= 7', 'Android >= 4.1'])]))
         .pipe(

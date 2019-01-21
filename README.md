@@ -1,3 +1,17 @@
+## 开发
+
+此插件开发阶段，使用`gulp`构建。
+
+```shell
+# 全局安装gulp
+$ npm i gulp -g
+# dev
+$ gulp -s -w
+# build
+$ gulp
+```
+
+## 文档
 
 `MUJS`是一套移动端通用弹层库，包含中间弹出(`default`)、滑动弹出(`slide`)、对话框(`alert`)、提示框(`toast`)、加载框(`loading`)、异步加载等。
 

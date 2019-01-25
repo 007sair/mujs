@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MUJS</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="index.css">
     <style>
         * {
             margin: 0;
@@ -75,6 +75,7 @@
         <button class="demo-btn js-btn-toast-1">无动效</button>
         <button class="demo-btn js-btn-toast-2">弹出</button>
         <button class="demo-btn js-btn-toast-3">从下往上</button>
+        <button class="demo-btn js-btn-toast-4">在底部弹出</button>
 
         <h3 class="demo-title">Alert</h3>
         <button class="demo-btn js-btn-alert-1">单按钮，无动效</button>
@@ -172,6 +173,14 @@
                 content: '我是toast提示框',
                 time: 1.5,
                 animate: 'up',
+            });
+
+            // toast
+            touch('.js-btn-toast-4', {
+                type: 'toast',
+                content: '我是toast提示框',
+                offset: 'bottom',
+                style: 'margin-bottom:20px;',
             });
 
 

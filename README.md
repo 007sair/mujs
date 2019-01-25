@@ -1,12 +1,14 @@
 ## 开发
 
-此插件开发阶段，使用`gulp`构建。
+开发使用`gulp`构建。
 
 ```shell
 # 全局安装gulp
 $ npm i gulp -g
+
 # dev
 $ gulp -s -w
+
 # build
 $ gulp
 ```

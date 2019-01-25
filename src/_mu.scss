@@ -49,13 +49,21 @@ $icon_loading: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcm
         display: flex;
         pointer-events: none;
 
+        // 垂直居中
         @include m(center) {
             align-items: center;
             justify-content: center;
         }
 
+        // toast弹层出现的位置：底部居中
         @include m(bottom) {
             align-items: flex-end;
+            justify-content: center;
+        }
+
+        // toast弹层出现的位置：顶部居中
+        @include m(top) {
+            align-items: flex-start;
             justify-content: center;
         }
     }
